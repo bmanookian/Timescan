@@ -32,5 +32,9 @@ a folder names 'masterscan' that contains a numpy file for each window scan
 multiple files
 1. edgenames and nodenames numpys extracted from the BN
 2. a heatmap file created from all the scores - this can be used in the final step to give complete output of tracks for all edges
+3. tracks numpy that contains track plots for all edges
 
+To plot tracks
+load tracks.npy
+run plot(tracks.T)
 
