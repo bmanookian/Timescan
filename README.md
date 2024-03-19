@@ -1,7 +1,5 @@
 # Timescan
 
-test addition
-
 This folder contains all the codes required to run the timescan algorithm.
 
 Required Inputs are:
