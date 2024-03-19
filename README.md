@@ -2,13 +2,20 @@
 
 This folder contains all the codes required to run the timescan algorithm.
 
+
 Required Inputs are:
 
 1. rendered dot file output from BN calculation
 2. csv data file in format row-based with first low as feature labels
 
-Open th run.py file for user inputs 
-    provide the paths for dotfile and data file
+To Run using submit file:
+in submit file run as follows
+
+python run.py DOTFILE DATACSVFILE
+
+
+
+other options can be changed in run python file as needed:
 
     provide the number of processors you would like to use (nprocs)
 
