@@ -91,7 +91,7 @@ def scanandsave(scan,nprocs,scoresdir='./masterscan/'):
         W=getscanWindows(scan.datamax,window,shift=1)
         out=np.array(runParallel(scan.scores,W,nprocs))
         np.save(scoresdir+f'scores_{window}.npy',out.T)
-    	print(f'Scores_{window} written')
+        print(f'Scores_{window} written')
     return        
             
     

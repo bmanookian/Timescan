@@ -1,29 +1,31 @@
 import os
 import sys
 import numpy as np
+sys.path.append('/home/bmanookian/Timescan/')
 import data_loader as dataload
 import scanrun as sr
 import scananalysis as sa
 
 # inputs - Change below here as needed
-dotfile='/home/bmanookian/BN/proteins/nts1/productive/md1/rendering.dot'
-datafile='/home/bmanookian/data/nts/nts1_th0.005.csv'
 deltawindow=300
 nprocs=28
 
+
+# take inputs
+dotfile=sys.argv[1]
+datafile=sys.argv[2]
 
 
 ## CODE BELOW SHOULD NOT BE CHANGED ##
  
 # prepare output folder for scan scores output
-workdir = os.getcwd()
 folder_name = 'masterscan'
 if not os.path.exists(folder_name):
 	os.makedirs(folder_name)
 else:
 	print(f"Folder '{folder_name}' already exists.")
 
-outputdir=os.path.join(workdir, folder_name)	
+#outputdir=os.path.join(workdir, folder_name)	
 
 
 # Load Data from input
@@ -39,7 +41,7 @@ np.save('edgenames.npy',timescan.edges)
 
 ### Run scan and save to masterscan output ###
 
-sr.scanandsave(timescan,nprocs,scoresdir=outputdir)
+sr.scanandsave(timescan,nprocs)
 
 print('Scores files saved to: masterscan/')
 
