@@ -1,4 +1,5 @@
 import numpy as np
+import findpeak as fp
 
 
 def find_pairs(ivall,names):
@@ -163,3 +164,21 @@ def computeedgetimediff(edge,N):
 
 def distmatrix(edgenames,distmatrix,resnames,iv):
     return np.array([[computeedgedistance([edgenames[i],edgenames[j]],distmatrix,resnames) for i in iv] for j in iv])
+
+def getallt(peakth,windows=None,heatmap=None):
+    if heatmap is None:
+        heatmap=np.load('heatmap.npy')
+    maxargs=getmaxfromheat(heatmap)
+    allt=np.array([fp.Track(heatmap[e][maxargs[e]],e,maxargs[e],bands=True,th_bw=10,th_h=peakth) for e in range(len(maxargs))])
+    iv,nodelist=findbandlocs(allt,maxargs,windows)
+    return allt,iv,maxargs
+
+def getalltivandevents(peakth,windows,heatmap=None,eventsonly=False):
+    if heatmap is None:
+        heatmap=np.load('heatmap.npy')
+    maxargs=getmaxfromheat(heatmap)
+    allt=np.array([fp.Track(heatmap[e][maxargs[e]],e,maxargs[e],bands=True,th_bw=10,th_h=peakth) for e in range(len(maxargs))])
+    iv,nodelist=findbandlocs(allt,maxargs,windows)
+    if eventsonly:
+        return sortnetwork(producenetwork(nodelist,iv))
+    return allt,iv,sortnetwork(producenetwork(nodelist,iv)),maxargs
