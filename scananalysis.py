@@ -173,7 +173,7 @@ def getallt(peakth,windows=None,heatmap=None):
     iv,nodelist=findbandlocs(allt,maxargs,windows)
     return allt,iv,maxargs
 
-def getalltivandevents(peakth,windows,heatmap=None,eventsonly=False):
+def getalltivandevents(peakth,windows=None,heatmap=None,eventsonly=False):
     if heatmap is None:
         heatmap=np.load('heatmap.npy')
     maxargs=getmaxfromheat(heatmap)

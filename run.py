@@ -62,8 +62,12 @@ heatmap=scan.converttoheatmap(dotout)
 print(f'Heatmap completed with shape {heatmap[:,:,:-1].shape}')
 np.save('heatmap.npy',heatmap[:,:,:-1])
 
-allt,iv,maxargs=sa.getallt(0.01,windows=None)
+
+# Below provides numpys to be used for analysis via trackanalysis.py
+
+allt,iv,events,maxargs=sa.getalltivandevents(0.01,windows=None)
 
 tracks=np.array([allt[i].X for i in range(len(allt))])
 np.save('tracks.npy',tracks)
-#produce array with allt tracks and write to numpy fil
+np.save('tracks_cutoff.npy',iv)
+np.save('events.npy',events)
