@@ -69,7 +69,6 @@ def getscanWindows(datamax,window,shift):
 class Scan():
     
     def __init__(self,data,dotfile,deltawindow=300):
-        #test
         # get edges and nodes and enumerate edges
         self.data=data
         self.datamax=self.data.shape[1]
