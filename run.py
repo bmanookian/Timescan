@@ -32,7 +32,7 @@ else:
 data,labels=dataload.getdataandlabels(datafile)
 
 #Setup time run
-timescan=sr.Scan(data,dotfile,deltawindow)
+timescan=sr.Scan(data,labels,dotfile,deltawindow)
 
 # save nodes and edge files
 np.save('nodenames.npy',timescan.nodes)
