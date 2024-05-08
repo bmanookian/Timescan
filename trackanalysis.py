@@ -11,7 +11,7 @@ def loadnumpys(heatmap=False):
 	return eds,nod,tks,iv,evs
 
 
-def getT(thresh,heatmap=heatmap,windows=None):
+def getT(thresh,heatmap,windows=None):
     if windows is not None:
         maxargs=np.array([np.argmax(np.amax(i,axis=1)) for i in heatmap[:,:windows,:]])
     else:

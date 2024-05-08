@@ -66,7 +66,7 @@ np.save('heatmap.npy',heatmap[:,:,:-1])
 
 # Below provides numpys to be used for analysis via trackanalysis.py
 
-T,iv=ta.getT(thresh,heatmap,windows=1)
+T,iv=ta.getT(thresh,heatmap=heatmap[:,:,:-1],windows=1)
 
 np.save('tracks.npy',T)
 np.save('edges_abv_cutoff.npy',iv)
