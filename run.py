@@ -5,7 +5,7 @@ sys.path.append('/home/bmanookian/Timescan/')
 import data_loader as dataload
 import scanrun as sr
 import scananalysis as sa
-import tracksanalysis as ta
+import trackanalysis as ta
 
 # inputs - Change below here as needed
 deltawindow=300

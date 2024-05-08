@@ -6,9 +6,8 @@ def loadnumpys(heatmap=False):
 	eds=np.load('edgenames.npy')
 	nod=np.load('nodenames.npy')
 	tks=np.load('tracks.npy')
-	iv=np.load('tracks_cutoff.npy')
-	evs=np.load('events.npy')
-	return eds,nod,tks,iv,evs
+	iv=np.load('edges_abv_cutoff.npy')
+	return eds,nod,tks,iv
 
 
 def getT(thresh,heatmap,windows=None):
