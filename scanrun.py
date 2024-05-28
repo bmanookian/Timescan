@@ -29,7 +29,7 @@ def getedgefromdot(dotfile):
     G=pgv.AGraph(dotfile)
     nodes=np.sort(np.array(G.nodes()))
     edges=np.array([e[0]+'->'+e[1] for e in  np.array(G.edges())])
-    return edges
+    return nodes,edges
 
 # Possibly put a test here that makes sure the number of labels in the data 
 # file matches that in the rendering file
@@ -71,9 +71,9 @@ class Scan():
     def __init__(self,data,labels,dotfile,deltawindow=300):
         # get edges and nodes and enumerate edges
         self.data=data
-        self.nodes=labels
+        self.nodes,self.edges=getedgefromdot(dotfile)
         self.datamax=self.data.shape[1]
-        self.edges=getedgefromdot(dotfile)
+        #self.edges=getedgefromdot(dotfile)
         self.nodedict=getlabdict(self.nodes)
         print(data.shape,self.nodes.shape,self.edges.shape)
         self.edgenums=edgeenumerate(self.edges,self.nodedict)
