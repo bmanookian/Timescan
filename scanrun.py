@@ -25,9 +25,14 @@ def runParallel(foo,iter,ncore):
 
 # get edges from the rendering file
 
-def getedgefromdot(dotfile):
+def getedgefromdot(dotfile,moralize=False):
     G=pgv.AGraph(dotfile)
     nodes=np.sort(np.array(G.nodes()))
+    if moralize==True:
+        import networkx as nx
+        mG=nx.moral_graph(nx.nx_agraph.from_agraph(G))
+        edges=np.array([e[0]+'->'+e[1] for e in np.array(list(mG.edges()))])
+        return nodes,edges
     edges=np.array([e[0]+'->'+e[1] for e in  np.array(G.edges())])
     return nodes,edges
 
@@ -69,12 +74,11 @@ def getscanWindows(datamax,window,shift):
 class Scan():
     def __init__(self,data,labels,dotfile,deltawindow=300,windowlist=None):
         # get edges and nodes and enumerate edges
-        self.data=data
         self.nodes,self.edges=getedgefromdot(dotfile)
+        self.data=data[np.in1d(labels,self.nodes)]
         self.datamax=self.data.shape[1]
-        #self.edges=getedgefromdot(dotfile)
         self.nodedict=getlabdict(self.nodes)
-        print(data.shape,self.nodes.shape,self.edges.shape)
+        print(self.data.shape,self.nodes.shape,self.edges.shape)
         self.edgenums=edgeenumerate(self.edges,self.nodedict)
 
         # Prepare windows list 
