@@ -3,7 +3,7 @@ import pygraphviz as pgv
 import multiprocessing
 import entropy as en
 
-# parallel functiion
+# parallel function
 def runParallel(foo,iter,ncore):
     pool=multiprocessing.Pool(processes=ncore)
     try:
