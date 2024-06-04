@@ -5,12 +5,11 @@ sys.path.append('/home/bmanookian/Timescan/')
 import data_loader as dataload
 import scanrun as sr
 import scananalysis as sa
-import trackanalysis as ta
 
 # inputs - Change below here as needed
 deltawindow=300
 nprocs=28
-thresh=0.01
+windowlist=[150,450,750,1050]
 
 # take inputs
 dotfile=sys.argv[1]
@@ -33,7 +32,7 @@ else:
 data,labels=dataload.getdataandlabels(datafile)
 
 #Setup time run
-timescan=sr.Scan(data,labels,dotfile,deltawindow)
+timescan=sr.Scan(data,labels,dotfile,deltawindow,windowlist)
 
 # save nodes and edge files
 np.save('nodenames.npy',timescan.nodes)
@@ -66,8 +65,9 @@ np.save('heatmap.npy',heatmap[:,:,:-1])
 
 # Below provides numpys to be used for analysis via trackanalysis.py
 
-T,iv=ta.getT(thresh,heatmap=heatmap[:,:,:-1],windows=1)
+allt,iv,events,maxargs=sa.getalltivandevents(0.01,windows=None)
 
-np.save('tracks.npy',T)
-np.save('edges_abv_cutoff.npy',iv)
-
+tracks=np.array([allt[i].X for i in range(len(allt))])
+np.save('tracks.npy',tracks)
+np.save('tracks_cutoff.npy',iv)
+np.save('events.npy',events)

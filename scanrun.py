@@ -67,8 +67,7 @@ def getscanWindows(datamax,window,shift):
     return np.column_stack([x,y])
 
 class Scan():
-    
-    def __init__(self,data,labels,dotfile,deltawindow=300):
+    def __init__(self,data,labels,dotfile,deltawindow=300,windowlist=None):
         # get edges and nodes and enumerate edges
         self.data=data
         self.nodes,self.edges=getedgefromdot(dotfile)
@@ -77,14 +76,15 @@ class Scan():
         self.nodedict=getlabdict(self.nodes)
         print(data.shape,self.nodes.shape,self.edges.shape)
         self.edgenums=edgeenumerate(self.edges,self.nodedict)
-        
+
         # Prepare windows list 
-        self.windowlist=createwindowslist(deltawindow,self.datamax)
-        return 
-    
+        self.windowlist=windowlist
+        if windowlist is None:
+            self.windowlist=createwindowslist(deltawindow,self.datamax)
+
     def scores(self,window):
         return miScan(self.data,self.edgenums,window)
- 
+
 def scanandsave(scan,nprocs,scoresdir='./masterscan/'):
 
     for i,window in enumerate(scan.windowlist):
