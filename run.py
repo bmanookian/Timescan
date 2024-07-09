@@ -1,6 +1,7 @@
 import os
 import sys
 import numpy as np
+import pickle
 sys.path.append('/home/bmanookian/Timescan/')
 import data_loader as dataload
 import scanrun as sr
@@ -30,16 +31,16 @@ else:
 data,labels=dataload.getdataandlabels(datafile)
 
 #Setup time run
-timescan=sr.Scan(data,labels,dotfile,deltawindow,windowlist)
+dbn=sr.Scan(data,labels,dotfile,deltawindow,windowlist)
 
 # save nodes and edge files
-np.save('nodenames.npy',timescan.nodes)
-np.save('edgenames.npy',timescan.edges)
+np.save('nodenames.npy',dbn.nodes)
+np.save('edgenames.npy',dbn.edges)
 
 
 ### Run scan and save to masterscan output ###
 
-sr.scanandsave(timescan,nprocs)
+sr.scanandsave(dbn,nprocs)
 
 print('Scores files saved to: masterscan/')
 
@@ -48,12 +49,12 @@ print('Scores files saved to: masterscan/')
 # Heatmap calculation
 print('Moving to heatmap calculation')
 # Load output files from masterscan
-out = [np.load(f'./masterscan/scores_{i}.npy') for i in timescan.windowlist]
+out = [np.load(f'./masterscan/scores_{i}.npy') for i in dbn.windowlist]
 
 # Build heatmap for run
 
-scan=sa.Scandot(out,timescan.windowlist,timescan.data.shape[1])
-dotout=[scan.allwinalledge(j) for j in range(len(timescan.windowlist))]
+scan=sa.Scandot(out,dbn.windowlist,dbn.data.shape[1])
+dotout=[scan.allwinalledge(j) for j in range(len(dbn.windowlist))]
 heatmap=scan.converttoheatmap(dotout)
 
 # Save to output file
@@ -65,7 +66,12 @@ np.save('heatmap.npy',heatmap[:,:,:-1])
 
 allt,iv,events,maxargs=sa.getalltivandevents(0.01,windows=None)
 
-tracks=np.array([allt[i].X for i in range(len(allt))])
-np.save('tracks.npy',tracks)
+#Complete dbn object and save to pickel file
+dbn.settracks(np.array([allt[i].X for i in range(len(allt))]))
+dbn.computwd()
+with open('dbn.pkl', 'wb') as file:
+    pickle.dump(dbn, file)
+
+np.save('tracks.npy',dbn.tracks)
 np.save('tracks_cutoff.npy',iv)
 np.save('events.npy',events)

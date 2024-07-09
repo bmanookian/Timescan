@@ -1,7 +1,9 @@
 import numpy as np
 import pygraphviz as pgv
 import multiprocessing
+import networkx as nx
 import entropy as en
+
 
 
 # parallel function
@@ -75,11 +77,11 @@ def getscanWindows(datamax,window,shift):
 class Scan():
     def __init__(self,data,data_labels,dotfile,deltawindow=300,windowlist=None):
         #Initialize class with input trajectory data and data_labels
-        self.trajdata=data.astype(int)
-        self.datalabels=data_labels
+        self.inputtraj=data.astype(int)
+        self.inputlabels=data_labels
         # get edges and nodes from dotfile and enumerate edges
         self.nodes,self.edges=getedgefromdot(dotfile)
-        self.data=data[np.in1d(self.datalabels,self.nodes)].astype(int)
+        self.data=data[np.in1d(self.inputlabels,self.nodes)].astype(int)
         self.datamax=self.data.shape[1]
         self.nodedict=getlabdict(self.nodes)
         print(self.data.shape,self.nodes.shape,self.edges.shape)
@@ -92,6 +94,13 @@ class Scan():
 
     def scores(self,window):
         return miScan(self.data,self.edgenums,window)
+
+    def settracks(self,tracks):
+        self.tracks=tracks
+
+    def computewd(self):
+        src=[np.where(self.edgenums==i)[0] for i in range(self.nodes.shape[0])]
+        self.wdegree=np.array([[np.sum(self.tracks[src[i],t]) for t in range(self.tracks.shape[1])] for i in range(self.nodes.shape[0])])
 
 def scanandsave(scan,nprocs,scoresdir='./masterscan/'):
 
