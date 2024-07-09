@@ -91,6 +91,11 @@ class Scan():
         self.windowlist=windowlist
         if windowlist is None:
             self.windowlist=createwindowslist(deltawindow,self.datamax)
+        
+        # Create networkx graph
+        self.G=nx.DiGraph()
+        self.G.add_nodes_from(self.nodes)
+        self.G.add_edges_from(np.array([i.split('->') for i in self.edges]))
 
     def scores(self,window):
         return miScan(self.data,self.edgenums,window)
