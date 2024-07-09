@@ -3,6 +3,7 @@ import pygraphviz as pgv
 import multiprocessing
 import entropy as en
 
+
 # parallel function
 def runParallel(foo,iter,ncore):
     pool=multiprocessing.Pool(processes=ncore)
@@ -72,10 +73,13 @@ def getscanWindows(datamax,window,shift):
     return np.column_stack([x,y])
 
 class Scan():
-    def __init__(self,data,labels,dotfile,deltawindow=300,windowlist=None):
-        # get edges and nodes and enumerate edges
+    def __init__(self,data,data_labels,dotfile,deltawindow=300,windowlist=None):
+        #Initialize class with input trajectory data and data_labels
+        self.trajdata=data.astype(int)
+        self.datalabels=data_labels
+        # get edges and nodes from dotfile and enumerate edges
         self.nodes,self.edges=getedgefromdot(dotfile)
-        self.data=data[np.in1d(labels,self.nodes)]
+        self.data=data[np.in1d(self.datalabels,self.nodes)].astype(int)
         self.datamax=self.data.shape[1]
         self.nodedict=getlabdict(self.nodes)
         print(self.data.shape,self.nodes.shape,self.edges.shape)
@@ -97,6 +101,7 @@ def scanandsave(scan,nprocs,scoresdir='./masterscan/'):
         np.save(scoresdir+f'scores_{window}.npy',out.T)
         print(f'Scores_{window} written')
     return        
+
             
     
             
