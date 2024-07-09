@@ -11,12 +11,12 @@ deltawindow=300
 nprocs=28
 windowlist=[150,450,750,1050]
 
+
+## CODE BELOW SHOULD NOT BE CHANGED ##
+
 # take inputs
 dotfile=sys.argv[1]
 datafile=sys.argv[2]
-
-
-## CODE BELOW SHOULD NOT BE CHANGED ##
  
 # prepare output folder for scan scores output
 folder_name = 'masterscan'
@@ -24,8 +24,6 @@ if not os.path.exists(folder_name):
 	os.makedirs(folder_name)
 else:
 	print(f"Folder '{folder_name}' already exists.")
-
-#outputdir=os.path.join(workdir, folder_name)	
 
 
 # Load Data from input
