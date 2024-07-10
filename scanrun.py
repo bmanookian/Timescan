@@ -74,6 +74,7 @@ def getscanWindows(datamax,window,shift):
     y=x+window
     return np.column_stack([x,y])
 
+
 class Scan():
     def __init__(self,data,data_labels,dotfile,deltawindow=300,windowlist=None):
         #Initialize class with input trajectory data and data_labels
@@ -93,9 +94,8 @@ class Scan():
             self.windowlist=createwindowslist(deltawindow,self.datamax)
         
         # Create networkx graph
-        self.G=nx.DiGraph()
-        self.G.add_nodes_from(self.nodes)
-        self.G.add_edges_from(np.array([i.split('->') for i in self.edges]))
+        self.G=nx.drawing.nx_agraph.read_dot(dotfile)
+        self.G_edgevals=np.array([list(self.G.edges.data())[i][2]['label'] for i in range(len(list(self.G.edges)))]).astype(float)
 
     def scores(self,window):
         return miScan(self.data,self.edgenums,window)
