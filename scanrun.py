@@ -37,7 +37,7 @@ def getedgefromdot(dotfile,moralize=False):
         edges=np.array([e[0]+'->'+e[1] for e in np.array(list(mG.edges()))])
         return nodes,edges
     edges=np.array([e[0]+'->'+e[1] for e in  np.array(G.edges())])
-    return nodes,edges
+    return np.sort(nodes),np.sort(edges)
 
 # Possibly put a test here that makes sure the number of labels in the data 
 # file matches that in the rendering file
@@ -78,11 +78,13 @@ def getscanWindows(datamax,window,shift):
 class Scan():
     def __init__(self,data,data_labels,dotfile,deltawindow=300,windowlist=None):
         #Initialize class with input trajectory data and data_labels
-        self.inputtraj=data.astype(int)
-        self.inputlabels=data_labels
+        self.inputlabels=np.sort(data_labels)
+        self.inputtraj=data[np.argsort(data_labels),:].astype(int)
+        #self.inputlabels=data_labels
         # get edges and nodes from dotfile and enumerate edges
         self.nodes,self.edges=getedgefromdot(dotfile)
-        self.data=data[np.in1d(self.inputlabels,self.nodes)].astype(int)
+        self.data=self.inputtraj[np.in1d(self.inputlabels,self.nodes)].astype(int)
+        #self.data=data[np.in1d(self.inputlabels,self.nodes)].astype(int)
         self.datamax=self.data.shape[1]
         self.nodedict=getlabdict(self.nodes)
         print(self.data.shape,self.nodes.shape,self.edges.shape)

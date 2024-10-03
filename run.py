@@ -68,7 +68,7 @@ allt,iv,events,maxargs=sa.getalltivandevents(0.01,windows=None)
 
 #Complete dbn object and save to pickel file
 dbn.settracks(np.array([allt[i].X for i in range(len(allt))]))
-dbn.computwd()
+dbn.computewd()
 with open('dbn.pkl', 'wb') as file:
     pickle.dump(dbn, file)
 
