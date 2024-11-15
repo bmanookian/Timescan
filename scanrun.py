@@ -35,7 +35,7 @@ def getedgefromdot(dotfile,moralize=False):
         import networkx as nx
         mG=nx.moral_graph(nx.nx_agraph.from_agraph(G))
         edges=np.array([e[0]+'->'+e[1] for e in np.array(list(mG.edges()))])
-        return nodes,edges
+        return np.sort(nodes),np.sort(edges)
     edges=np.array([e[0]+'->'+e[1] for e in  np.array(G.edges())])
     return np.sort(nodes),np.sort(edges)
 
