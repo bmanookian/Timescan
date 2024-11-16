@@ -76,13 +76,13 @@ def getscanWindows(datamax,window,shift):
 
 
 class Scan():
-    def __init__(self,data,data_labels,dotfile,deltawindow=300,windowlist=None):
+    def _init__(self,data,data_labels,dotfile,deltawindow=300,windowlist=None,moralize=False):
         #Initialize class with input trajectory data and data_labels
         self.inputlabels=np.sort(data_labels)
         self.inputtraj=data[np.argsort(data_labels),:].astype(int)
         #self.inputlabels=data_labels
         # get edges and nodes from dotfile and enumerate edges
-        self.nodes,self.edges=getedgefromdot(dotfile)
+        self.nodes,self.edges=getedgefromdot(dotfile,moralize)
         self.data=self.inputtraj[np.in1d(self.inputlabels,self.nodes)].astype(int)
         #self.data=data[np.in1d(self.inputlabels,self.nodes)].astype(int)
         self.datamax=self.data.shape[1]

@@ -31,18 +31,18 @@ else:
 data,labels=dataload.getdataandlabels(datafile)
 
 #Setup time run
-dbn=sr.Scan(data,labels,dotfile,deltawindow,windowlist,moralize=True)
+dbn=sr.Scan(data,labels,dotfile,deltawindow,windowlist)
 
 # save nodes and edge files
-np.save('nodenames.npy',dbn.nodes)
-np.save('edgenames.npy',dbn.edges)
+#np.save('nodenames.npy',dbn.nodes)
+#np.save('edgenames.npy',dbn.edges)
 
 
 ### Run scan and save to masterscan output ###
 
-sr.scanandsave(dbn,nprocs)
+#sr.scanandsave(dbn,nprocs)
 
-print('Scores files saved to: masterscan/')
+#print('Scores files saved to: masterscan/')
 
 
 
@@ -59,7 +59,7 @@ heatmap=scan.converttoheatmap(dotout)
 
 # Save to output file
 print(f'Heatmap completed with shape {heatmap[:,:,:-1].shape}')
-np.save('heatmap.npy',heatmap[:,:,:-1])
+#np.save('heatmap.npy',heatmap[:,:,:-1])
 
 
 # Below provides numpys to be used for analysis via trackanalysis.py
@@ -72,6 +72,6 @@ dbn.computewd()
 with open('dbn.pkl', 'wb') as file:
     pickle.dump(dbn, file)
 
-np.save('tracks.npy',dbn.tracks)
-np.save('tracks_cutoff.npy',iv)
-np.save('events.npy',events)
+#np.save('tracks.npy',dbn.tracks)
+#np.save('tracks_cutoff.npy',iv)
+#np.save('events.npy',events)
